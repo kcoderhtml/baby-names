@@ -1,15 +1,9 @@
 # baby-names
 
-To install dependencies:
+Inspired by https://github.com/aramshiva/babies this serves the sole purpose of answering the question i randomly had: *"has anyone named their child nostalgia?"*
 
-```bash
-bun install
-```
+---
 
-To run:
-
-```bash
-bun run index.ts
-```
-
-This project was created using `bun init` in bun v1.1.20. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+*© 2024 Kieran Klukas*  
+*The code and design are licensed under [AGPL 3.0](LICENSE.md)*  
+*The contents of `src/content` all rights reserved*
