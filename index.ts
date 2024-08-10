@@ -47,3 +47,41 @@ console.log(
   "to",
   files[files.length - 1]
 );
+
+const prompt = "search for something: ";
+process.stdout.write(prompt);
+for await (const line of console) {
+  console.log(`searching for: ${line}`);
+  const results = (await searchYears(line)).sort((a, b) => b.year - a.year);
+  console.log(
+    `${results
+      .map((result) => `${result.year}: ${result.count}`)
+      .join("\n")}\nthe name "${line}" was found in ${
+      results.length
+    } years at total of ${results.reduce(
+      (acc, result) => acc + result.count,
+      0
+    )} times`
+  );
+  process.stdout.write(prompt);
+}
+
+async function searchYears(term: string) {
+  let searchResults: { year: number; count: number }[] = [];
+  for (const year of files) {
+    // check whether that term appears in the file
+    const file = await Bun.file("data/names/yob" + year + ".txt").text();
+    const matches = file.matchAll(new RegExp(term, "gi"));
+
+    let searchResult = { year, count: 0 };
+    for (const match of matches) {
+      searchResult.count++;
+    }
+
+    if (searchResult.count > 0) {
+      searchResults.push(searchResult);
+    }
+  }
+
+  return searchResults;
+}
