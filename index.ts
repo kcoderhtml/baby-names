@@ -1,4 +1,5 @@
 import extract from "extract-zip";
+import { readdir } from "node:fs/promises";
 
 console.log(
   "#---------------------------->\n  ",
@@ -32,3 +33,17 @@ if (!extracted) {
   await extract("data/names.zip", { dir: localDir + "/data/names/" });
   console.log("succesfully extracted data!\n");
 }
+
+// list how many years of data is contained in the export this is found by all the files in the data/names dir that have the pattern yobxxxx.txt
+const files = (await readdir("data/names"))
+  .filter((file) => file.match(/yob\d{4}.txt/))
+  .map((year) => parseInt(year.replace("yob", "").replace(".txt", "")));
+
+console.log(
+  "loaded",
+  files.length,
+  "years of data from",
+  files[0],
+  "to",
+  files[files.length - 1]
+);
